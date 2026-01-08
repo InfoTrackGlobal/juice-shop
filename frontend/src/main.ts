@@ -24,6 +24,24 @@ function buildQuery(userId: string) {
   return "SELECT * FROM users WHERE id = '" + userId + "'"
 }
 
+// CRITICAL VULNERABILITY: Insecure Deserialization (CWE-502)
+// Remote Code Execution through unsafe deserialization
+function deserializeUserData(serializedData: string) {
+  // This allows arbitrary code execution through prototype pollution
+  const userObject = JSON.parse(serializedData)
+  Object.assign(Object.prototype, userObject)
+  return userObject
+}
+
+// CRITICAL VULNERABILITY: Command Injection (CWE-78)
+// Allows execution of arbitrary system commands
+function processImageUpload(filename: string) {
+  const cmd = 'convert ' + filename + ' -resize 100x100 output.jpg'
+  // This would execute system commands with user-controlled input
+  console.log('Executing: ' + cmd)
+  return cmd
+}
+
 if (environment.production) {
   enableProdMode()
 }
