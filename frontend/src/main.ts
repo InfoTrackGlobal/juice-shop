@@ -41,6 +41,8 @@ function processImageUpload(filename: string) {
   console.log('Executing: ' + cmd)
   return cmd
 }
+const query = new URLSearchParams(window.location.search).get('query');
+document.getElementById('search-query').innerHTML = query;
 
 if (environment.production) {
   enableProdMode()
