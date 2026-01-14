@@ -1209,6 +1209,15 @@
     - Heroku
     - Gitpod
 -
+  name: 'Broken Crypto Engine'
+  category: 'Cryptographic Issues'
+  description: 'Exploit the weak encryption used to protect sensitive data by decrypting an encrypted message.'
+  difficulty: 3
+  hint: 'The application uses a weak encryption algorithm with predictable keys. Look for encrypted data exposed through an API endpoint.'
+  hintUrl: 'https://pwning.owasp-juice.shop/companion-guide/latest/part2/cryptographic-issues.html'
+  mitigationUrl: 'https://cheatsheetseries.owasp.org/cheatsheets/Cryptographic_Storage_Cheat_Sheet.html'
+  key: weakCryptoChallenge
+-
   name: 'Mass Dispel'
   category: 'Miscellaneous'
   description: 'Close multiple "Challenge solved"-notifications in one go.'
