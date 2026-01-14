@@ -43,6 +43,21 @@ interface IAuthenticatedUsers {
 export const hash = (data: string) => crypto.createHash('md5').update(data).digest('hex')
 export const hmac = (data: string) => crypto.createHmac('sha256', 'pa4qacea4VK9t9nGv7yZtwmj').update(data).digest('hex')
 
+// vuln-code-snippet start weakCryptoChallenge
+// Vulnerable: Using ROT13 as "encryption" - a trivially weak cipher
+export const weakEncrypt = (data: string) => {
+  return data.replace(/[a-zA-Z]/g, (char: string) => {
+    const start = char <= 'Z' ? 65 : 97
+    return String.fromCharCode(((char.charCodeAt(0) - start + 13) % 26) + start) // vuln-code-snippet vuln-line weakCryptoChallenge
+  })
+}
+
+export const weakDecrypt = (data: string) => {
+  // ROT13 is its own inverse
+  return weakEncrypt(data) // vuln-code-snippet vuln-line weakCryptoChallenge
+}
+// vuln-code-snippet end weakCryptoChallenge
+
 export const cutOffPoisonNullByte = (str: string) => {
   const nullByte = '%00'
   if (utils.contains(str, nullByte)) {
